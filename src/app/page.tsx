@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
+import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa6";
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -226,6 +227,26 @@ export default function Home() {
 
         </div>
       </section>
+
+      {/* FOOTER */}
+      <footer className="w-full bg-[#111] py-12 px-4 md:px-12 border-t border-neutral-800">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-neutral-500 font-sans text-sm">
+            © {new Date().getFullYear()} Ezequiel Torres. Todos los derechos reservados.
+          </div>
+          <div className="flex items-center gap-8">
+            <a href="https://www.instagram.com/ezequiel_torres.art/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors duration-300">
+              <FaInstagram className="w-6 h-6" />
+            </a>
+            <a href="https://web.facebook.com/ezequiel.torres.954812" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors duration-300">
+              <FaFacebookF className="w-6 h-6" />
+            </a>
+            <a href="https://www.youtube.com/channel/UC6qjtV4dC9U6OexTildKZJA" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors duration-300">
+              <FaYoutube className="w-6 h-6" />
+            </a>
+          </div>
+        </div>
+      </footer>
 
     </main>
   );
