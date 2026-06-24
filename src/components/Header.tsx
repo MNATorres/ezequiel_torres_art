@@ -9,11 +9,11 @@ const LINKS = [{ label: "Trayectoria", href: "/trayectoria" }];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  // Give the header a subtle backdrop once the user scrolls past the top.
+  // The header only appears once the user scrolls past the hero video.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.85);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,12 +30,12 @@ export default function Header() {
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-black/40 backdrop-blur-md border-b border-white/10"
-            : "bg-transparent border-b border-transparent"
-        }`}
+      <motion.header
+        initial={false}
+        animate={visible ? { y: 0, opacity: 1 } : { y: "-100%", opacity: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{ pointerEvents: visible ? "auto" : "none" }}
+        className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-md"
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20 md:px-12">
           {/* Logo (same as the site icon) */}
@@ -69,7 +69,7 @@ export default function Header() {
             <FiMenu className="h-6 w-6" />
           </button>
         </div>
-      </header>
+      </motion.header>
 
       {/* Mobile full-screen menu */}
       <AnimatePresence>
