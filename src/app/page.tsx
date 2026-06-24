@@ -5,6 +5,8 @@ import Image from "next/image";
 import Script from "next/script";
 import { useRef, useState, useEffect } from "react";
 import { FaInstagram, FaFacebookF, FaYoutube, FaPinterestP, FaEnvelope, FaWhatsapp } from "react-icons/fa6";
+import ScrollBeam from "@/components/ScrollBeam";
+import GlowFrame from "@/components/GlowFrame";
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -13,6 +15,7 @@ export default function Home() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [showFloating, setShowFloating] = useState(false);
+  const [showAllTrayectorias, setShowAllTrayectorias] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,9 +59,34 @@ export default function Home() {
 
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
+  const trayectorias = [
+    {
+      title: "Fundador y Gestor - ANIMARTE",
+      desc: "Creación y gestión de ANIMARTE, un espacio dedicado al arte, dibujo y pintura. Impartición de talleres y cursos de body paint."
+    },
+    {
+      title: "Organizador - Seminario Provincial de Body Paint Jujuy",
+      desc: "Organización y participación activa en el Seminario Provincial de Body Paint Jujuy, un evento anual que celebra la creatividad y la expresión artística a través del cuerpo humano."
+    },
+    {
+      title: "Exposiciones de Arte",
+      desc: "Exhibición de obras de body paint en prestigiosos espacios y galerías de arte, incluyendo el Centro Cultural Héctor Tizón y el Museo de Bellas Artes de Jujuy."
+    },
+    {
+      title: "Reconocimientos y Premios",
+      desc: "Ganador de varios concursos y premios de arte a nivel local, nacional e internacional. Reconocimiento por parte del gobernador de Jujuy y la Universidad Nacional de Jujuy."
+    },
+    {
+      title: "Colaboración Mediática",
+      desc: "Colaboraciones con diversos medios de comunicación y cultura, incluyendo Jujuy FM 1017, Radio Nacional, El Tribuno de Jujuy y Notinor."
+    }
+  ];
+
   return (
     <main className="relative min-h-screen bg-background overflow-hidden" ref={containerRef}>
-      
+
+      <ScrollBeam />
+
       {/* HERO SECTION */}
       <section className="relative h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
         {/* Background Videos Toggle */}
@@ -115,7 +143,7 @@ export default function Home() {
             className="w-full md:w-1/2 cursor-pointer"
           >
             <div className="relative aspect-[3/4] w-full max-w-md mx-auto overflow-hidden rounded-xl shadow-2xl shadow-black/50">
-              <Image src="/ezequiel_torres.jpg" alt="Ezequiel Torres" fill className="object-cover saturate-150 contrast-110 transition-transform duration-700 hover:scale-110" />
+              <Image src="/ezequiel_torres.jpg" alt="Ezequiel Torres" fill className="object-cover transition-transform duration-700 hover:scale-110" />
             </div>
           </motion.div>
           <motion.div 
@@ -137,8 +165,8 @@ export default function Home() {
       </section>
 
       {/* PINTEREST SECTION */}
-      <section className="bg-[#FAFAFA] text-[#111] pt-32 pb-16 relative z-10 overflow-hidden">
-        <motion.div 
+      <section className="bg-[#0a0a0a] text-white pt-32 pb-16 relative z-10 overflow-hidden">
+        <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ margin: "-100px" }}
@@ -146,7 +174,7 @@ export default function Home() {
           className="text-center mb-12 px-4"
         >
           <h2 className="text-4xl md:text-5xl font-serif mb-4">Inspiración Reciente</h2>
-          <div className="w-24 h-1 bg-[#111] mx-auto"></div>
+          <div className="w-24 h-1 bg-white mx-auto"></div>
         </motion.div>
         
         {pins.length > 0 ? (
@@ -171,7 +199,7 @@ export default function Home() {
       </section>
 
       {/* TRAYECTORIA SECTION */}
-      <section className="pt-16 pb-32 px-4 md:px-12 bg-[#FAFAFA] text-[#111] relative z-10">
+      <section className="pt-16 pb-32 px-4 md:px-12 bg-[#0a0a0a] text-white relative z-10">
         <div className="max-w-4xl mx-auto space-y-16">
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
@@ -181,45 +209,39 @@ export default function Home() {
             className="text-center"
           >
             <h2 className="text-4xl md:text-5xl font-serif mb-4">Trayectoria</h2>
-            <div className="w-24 h-1 bg-[#111] mx-auto"></div>
+            <div className="w-24 h-1 bg-white mx-auto"></div>
           </motion.div>
 
           <div className="space-y-12">
-            {[
-              {
-                title: "Fundador y Gestor - ANIMARTE",
-                desc: "Creación y gestión de ANIMARTE, un espacio dedicado al arte, dibujo y pintura. Impartición de talleres y cursos de body paint."
-              },
-              {
-                title: "Organizador - Seminario Provincial de Body Paint Jujuy",
-                desc: "Organización y participación activa en el Seminario Provincial de Body Paint Jujuy, un evento anual que celebra la creatividad y la expresión artística a través del cuerpo humano."
-              },
-              {
-                title: "Exposiciones de Arte",
-                desc: "Exhibición de obras de body paint en prestigiosos espacios y galerías de arte, incluyendo el Centro Cultural Héctor Tizón y el Museo de Bellas Artes de Jujuy."
-              },
-              {
-                title: "Reconocimientos y Premios",
-                desc: "Ganador de varios concursos y premios de arte a nivel local, nacional e internacional. Reconocimiento por parte del gobernador de Jujuy y la Universidad Nacional de Jujuy."
-              },
-              {
-                title: "Colaboración Mediática",
-                desc: "Colaboraciones con diversos medios de comunicación y cultura, incluyendo Jujuy FM 1017, Radio Nacional, El Tribuno de Jujuy y Notinor."
-              }
-            ].map((item, index) => (
-              <motion.div 
+            {(showAllTrayectorias ? trayectorias : trayectorias.slice(0, 2)).map((item, index) => (
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ margin: "-50px" }}
                 whileHover={{ x: 10, scale: 1.02 }}
                 transition={{ duration: 0.5 }}
-                className="border-l-2 border-neutral-300 pl-6 cursor-pointer"
+                className="border-l-2 border-neutral-700 pl-6 cursor-pointer"
               >
                 <h3 className="text-2xl font-serif font-bold mb-2">{item.title}</h3>
-                <p className="text-lg text-neutral-600 font-sans">{item.desc}</p>
+                <p className="text-lg text-neutral-400 font-sans">{item.desc}</p>
               </motion.div>
             ))}
+          </div>
+
+          <div className="flex justify-center pt-4">
+            <motion.button
+              onClick={() => setShowAllTrayectorias((prev) => !prev)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              className="group relative overflow-hidden rounded-full border border-white/30 bg-white/5 px-10 py-4 text-sm md:text-base font-sans uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-colors duration-500 hover:border-white hover:text-black"
+            >
+              <span className="absolute inset-0 -z-0 origin-bottom scale-y-0 bg-white transition-transform duration-500 ease-out group-hover:scale-y-100"></span>
+              <span className="absolute inset-0 -z-10 rounded-full bg-white/20 blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
+              <span className="relative z-10">
+                {showAllTrayectorias ? "Ver menos" : "Ver todas las trayectorias"}
+              </span>
+            </motion.button>
           </div>
         </div>
       </section>
@@ -248,9 +270,11 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full md:w-1/2"
             >
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
-                <Image src="/murales.png" alt="Murales Humanos" fill className="object-cover saturate-150 contrast-125 transition-transform duration-700 hover:scale-110" />
-              </div>
+              <GlowFrame>
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+                  <Image src="/murales.png" alt="Murales Humanos" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+                </div>
+              </GlowFrame>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
@@ -275,9 +299,11 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full md:w-1/2"
             >
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
-                <Image src="/bodyPaint.jpg" alt="Identidad e Ilusion" fill className="object-cover saturate-150 contrast-125 transition-transform duration-700 hover:scale-110" />
-              </div>
+              <GlowFrame>
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+                  <Image src="/bodyPaint.jpg" alt="Identidad e Ilusion" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+                </div>
+              </GlowFrame>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
@@ -302,9 +328,11 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full md:w-1/2"
             >
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
-                <Image src="/seminarios.png" alt="Seminarios y Talleres" fill className="object-cover saturate-150 contrast-125 transition-transform duration-700 hover:scale-110" />
-              </div>
+              <GlowFrame>
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+                  <Image src="/seminarios.png" alt="Seminarios y Talleres" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+                </div>
+              </GlowFrame>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, y: 50 }}
