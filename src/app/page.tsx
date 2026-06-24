@@ -226,11 +226,13 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full md:w-1/2"
             >
-              <GlowFrame>
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
-                  <Image src="/murales.png" alt="Murales Humanos" fill className="object-cover transition-transform duration-700 hover:scale-110" />
-                </div>
-              </GlowFrame>
+              <div className="mx-auto w-[85%] md:w-[70%]">
+                <GlowFrame>
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+                    <Image src="/murales.png" alt="Murales Humanos" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+                  </div>
+                </GlowFrame>
+              </div>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
@@ -255,11 +257,13 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full md:w-1/2"
             >
-              <GlowFrame>
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
-                  <Image src="/bodyPaint.jpg" alt="Identidad e Ilusion" fill className="object-cover transition-transform duration-700 hover:scale-110" />
-                </div>
-              </GlowFrame>
+              <div className="mx-auto w-[85%] md:w-[70%]">
+                <GlowFrame>
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+                    <Image src="/bodyPaint.jpg" alt="Identidad e Ilusion" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+                  </div>
+                </GlowFrame>
+              </div>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
@@ -284,11 +288,13 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full md:w-1/2"
             >
-              <GlowFrame>
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
-                  <Image src="/seminarios.png" alt="Seminarios y Talleres" fill className="object-cover transition-transform duration-700 hover:scale-110" />
-                </div>
-              </GlowFrame>
+              <div className="mx-auto w-[85%] md:w-[70%]">
+                <GlowFrame>
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+                    <Image src="/seminarios.png" alt="Seminarios y Talleres" fill className="object-cover transition-transform duration-700 hover:scale-110" />
+                  </div>
+                </GlowFrame>
+              </div>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, y: 50 }}
