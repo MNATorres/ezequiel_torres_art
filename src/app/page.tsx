@@ -8,6 +8,7 @@ import { useRef, useState, useEffect } from "react";
 import { FaInstagram, FaFacebookF, FaYoutube, FaPinterestP, FaEnvelope, FaWhatsapp } from "react-icons/fa6";
 import ScrollBeam from "@/components/ScrollBeam";
 import GlowFrame from "@/components/GlowFrame";
+import type { Experience } from "@/lib/experiences";
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -16,6 +17,7 @@ export default function Home() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [showFloating, setShowFloating] = useState(false);
+  const [recentTrayectorias, setRecentTrayectorias] = useState<Experience[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,6 +50,17 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         if(data.images) setPins(data.images);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/experiences')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data.experiences)) {
+          setRecentTrayectorias(data.experiences.slice(0, 2));
+        }
       })
       .catch(err => console.error(err));
   }, []);
@@ -188,6 +201,29 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-serif mb-4">Trayectoria</h2>
             <div className="w-24 h-1 bg-white mx-auto"></div>
           </motion.div>
+
+          {recentTrayectorias.length > 0 && (
+            <div className="space-y-10">
+              {recentTrayectorias.map((item, index) => (
+                <motion.div
+                  key={item._id}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="border-l-2 border-neutral-700 pl-6"
+                >
+                  <p className="text-sm uppercase tracking-widest text-neutral-500 font-serif mb-1">
+                    {new Date(item.date).toLocaleDateString("es-AR", { year: "numeric", month: "long" })}
+                  </p>
+                  <h3 className="text-2xl font-serif font-bold mb-2 break-words">{item.title}</h3>
+                  <p className="text-lg text-neutral-400 font-sans break-words line-clamp-3">
+                    {item.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
           <div className="flex justify-center">
             <Link
