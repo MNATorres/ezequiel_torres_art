@@ -18,6 +18,7 @@ export default function Home() {
   const [width, setWidth] = useState(0);
   const [showFloating, setShowFloating] = useState(false);
   const [recentTrayectorias, setRecentTrayectorias] = useState<Experience[]>([]);
+  const [loadingTrayectorias, setLoadingTrayectorias] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +63,8 @@ export default function Home() {
           setRecentTrayectorias(data.experiences.slice(0, 2));
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(() => setLoadingTrayectorias(false));
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -202,27 +204,40 @@ export default function Home() {
             <div className="w-24 h-1 bg-white mx-auto"></div>
           </motion.div>
 
-          {recentTrayectorias.length > 0 && (
+          {loadingTrayectorias ? (
             <div className="space-y-10">
-              {recentTrayectorias.map((item, index) => (
-                <motion.div
-                  key={item._id}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="border-l-2 border-neutral-700 pl-6"
-                >
-                  <p className="text-sm uppercase tracking-widest text-neutral-500 font-serif mb-1">
-                    {new Date(item.date).toLocaleDateString("es-AR", { year: "numeric", month: "long" })}
-                  </p>
-                  <h3 className="text-2xl font-serif font-bold mb-2 break-words">{item.title}</h3>
-                  <p className="text-lg text-neutral-400 font-sans break-words line-clamp-3">
-                    {item.description}
-                  </p>
-                </motion.div>
+              {[0, 1].map((i) => (
+                <div key={i} className="border-l-2 border-neutral-800 pl-6 animate-pulse">
+                  <div className="h-3 w-24 rounded bg-white/10 mb-3" />
+                  <div className="h-6 w-2/3 rounded bg-white/10 mb-3" />
+                  <div className="h-4 w-full rounded bg-white/10 mb-2" />
+                  <div className="h-4 w-5/6 rounded bg-white/10" />
+                </div>
               ))}
             </div>
+          ) : (
+            recentTrayectorias.length > 0 && (
+              <div className="space-y-10">
+                {recentTrayectorias.map((item, index) => (
+                  <motion.div
+                    key={item._id}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="border-l-2 border-neutral-700 pl-6"
+                  >
+                    <p className="text-sm uppercase tracking-widest text-neutral-500 font-serif mb-1">
+                      {new Date(item.date).toLocaleDateString("es-AR", { year: "numeric", month: "long" })}
+                    </p>
+                    <h3 className="text-2xl font-serif font-bold mb-2 break-words">{item.title}</h3>
+                    <p className="text-lg text-neutral-400 font-sans break-words line-clamp-3">
+                      {item.description}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            )
           )}
 
           <div className="flex justify-center">
